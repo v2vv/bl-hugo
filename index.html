@@ -64,33 +64,35 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-ll" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-PWM调制" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/bl-hugo/2020/10/24/ll/" class="article-date">
-  <time datetime="2020-10-24T11:52:01.000Z" itemprop="datePublished">2020-10-24</time>
+    <a href="/bl-hugo/2020/10/24/PWM%E8%B0%83%E5%88%B6/" class="article-date">
+  <time datetime="2020-10-24T15:22:31.728Z" itemprop="datePublished">2020-10-24</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/bl-hugo/2020/10/24/ll/">ll</a>
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h3 id="PWM（脉宽调制）的基本原理及其应用实例"><a href="#PWM（脉宽调制）的基本原理及其应用实例" class="headerlink" title="PWM（脉宽调制）的基本原理及其应用实例"></a>PWM（脉宽调制）的基本原理及其应用实例</h3><p>PWM（脉宽调制）的基本原理及其应用实例脉宽调制(Pulse Width M<br>odulation)是利用微处理器的数字输出来对模拟电路进行控制的一种非常有效的技术，广泛应用在从测量、通信到功率控制与变换的许多领域中。模拟电路模拟信号的值可以连续变化，其时间和幅度的分辨率都没有限制。9V电池就是一种模拟器件，因为它的输出电压并不精确地等于9V，而是随时间发生变化，并可取任何实数值。与此类似，从电池吸收的电流也不限定在一组可能的取值范围之内。模拟信号与数字信号的区别在于后者的取值通常只能属于预先确定的可能取值集合之内，例如在{0V, 5V}这一集合中取值。模拟电压和电流可直接用来进行控制，如对汽车收音机的音量进行控制。在简单的模拟收音机中，音量旋钮被连接到一个可变电阻。拧动旋钮时，电阻值变大或变小；流经这个电阻的电流也随之增加或减少，从而改变了驱动扬声器的电流值，使音量相应变大或变小。与收音机一样，模拟电路的输出与输入成线性比例。尽管模拟控制看起来可能直观而简单，但它并不总是非常经济或可行的。其中一点就是，模拟电路容易随时间漂移，因而难以调节。能够解决这个问题的精密模拟电路可能非常庞大、笨重(如老式的家庭立体声设备)和昂贵。模拟电路还有可能严重发热，其功耗相对于工作元件两端电压与电流的乘积成正比。模拟电路还可能对噪声很敏感，任何扰动或噪声都肯定会改变电流值的大小。</p>
+<p>数字控制通过以数字方式控制模拟电路，可以大幅度降低系统的成本和功耗。此外，许多微控制器和DSP已经在芯片上包含了PWM控制器，这使数字控制的实现变得更加容易了。简而言之，PWM是一种对模拟信号电平进行数字编码的方法。通过高分辨率计数器的使用，方波的占空比被调制用来对一个具体模拟信号的电平进行编码。PWM信号仍然是数字的，因为在给定的任何时刻，满幅值的直流供电要么完全有(ON)，要么完全无(OFF)。电压或电流源是以一种通(ON)或断(OFF)的重复脉冲序列被加到模拟负载上去的。通的时候即是直流供电被加到负载上的时候，断的时候即是供电被断开的时候。只要带宽足够，任何模拟值都可以使用PWM进行编码。</p>
+<p>图1显示了三种不同的PWM信号。图1a是一个占空比为10%的PWM输出，即在信号周期中，10％的时间通，其余90％的时间断。图1b和图1c显示的分别是占空比为50%和90%的PWM输出。这三种PWM输出编码的分别是强度为满度值的10%、50%和90%的三<br>种不同模拟信号值。例如，假设供电电源为9V，占空比为10%，则对应的是一个幅度为<br>0.9V的模拟信号。    </p>
+<p>图2是一个可以使用PWM进行驱动的简单电路。图中使用9V电池来给一个白炽灯泡供电。如果将连接电池和灯泡的开关闭合50ms，灯泡在这段时间中将得到9V供电。如果在下一个50ms中将开关断开，灯泡得到的供电将为0V。如果在1秒钟内将此过程重复10次，灯泡将会点亮并象连接到了一个4.5V电池(9V的50%)上一样。这种情况下，占空比为50%，调制频率为10Hz。   </p>
+<p>大多数负载(无论是电感性负载还是电容性负载)需要的调制频率高于10Hz。设想一下如果灯泡先接通5秒再断开5秒，然后再接通、再断开……。占空比仍然是50%，但灯泡在头5秒钟内将点亮，在下一个5秒钟内将熄灭。要让灯泡取得4.5V电压的供电效果，通断循环周期与负载对开关状态变化的响应时间相比必须足够短。要想取得调光灯(但保持点亮)的效果，必须提高调制频率。在其他PWM应用场合也有同样的要求。通常调制频率为1kHz到200kHz之间。 硬件控制器    许多微控制器内部都包含有PWM控制器。例如，Microchip公司的PIC16C67内含两个PWM控制器，每一个都可以选择接通时间和周期。占空比是接通时间与周期之比；调制频率为周期的倒数。执行PWM操作之前，这种微处理器要求在软件中完成以下工作：<br>       <br>* 设置提供调制方波的片上定时器/计数器的周期   <br>     <br>* 在PWM控制寄存器中设置接通时间        </p>
+<p>* 设置PWM输出的方向，这个输出是一个通用I/O管脚   </p>
+<p>* 启动定时器        </p>
+<p>* 使能PWM控制器   </p>
+<p>虽然具体的PWM控制器在编程细节上会有所不同，但它们的基本思想通常是相同的。 通信与控制    PWM的一个优点是从处理器到被控系统信号都是数字形式的，无需进行数模转换。让信号保持为数字形式可将噪声影响降到最小。噪声只有在强到足以将逻辑1改变为逻辑0或将逻辑0改变为逻辑1时，也才能对数字信号产生影响。    </p>
+<p>对噪声抵抗能力的增强是PWM相对于模拟控制的另外一个优点，而且这也是在某些时候将PWM用于通信的主要原因。从模拟信号转向PWM可以极大地延长通信距离。在接收端，通过适当的RC或LC网络可以滤除调制高频方波并将信号还原为模拟形式。    </p>
+<p>PWM广泛应用在多种系统中。作为一个具体的例子，我们来考察一种用PWM控制的制动器。简单地说，制动器是紧夹住某种东西的一种装置。许多制动器使用模拟输入信号来控制夹紧压力(或制动功率)的大小。加在制动器上的电压或电流越大，制动器产生的压力就越大。    可以将PWM控制器的输出连接到电源与制动器之间的一个开关。要产生更大的制动功率，只需通过软件加大PWM输出的占空比就可以了。如果要产生一个特定大小的制动压力，需要通过测量来确定占空比和压力之间的数学关系(所得的公式或查找表经过变换可用于控制温度、表面磨损等等)。例如，假设要将制动器上的压力设定为100psi，软件将作一次反向查找，以确定产生这个大小的压力的占空比应该是多少。然后再将PWM占空比设置为这个新值，制动器就可以相应地进行响应了。如果系统中有一个传感器，则可以通过闭环控制来调节占空比，直到精确产生所需的压力。    </p>
+<p>总之，PWM既经济、节约空间、抗噪性能强，是一种值得广大工程师在许多设计应用中使用的有效技术。 </p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://v2vv.github.io/bl-hugo/2020/10/24/ll/" data-id="ckgnscjgi0002aouo76vq8fko" class="article-share-link">Share</a>
+      <a data-url="https://v2vv.github.io/bl-hugo/2020/10/24/PWM%E8%B0%83%E5%88%B6/" data-id="ckgnu1r6u000914uoev8gc2jf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -100,25 +102,15 @@
 
 
   
-    <article id="post-hh" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-dgdg" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/bl-hugo/2020/10/24/hh/" class="article-date">
-  <time datetime="2020-10-24T11:50:09.000Z" itemprop="datePublished">2020-10-24</time>
+    <a href="/bl-hugo/2020/10/24/dgdg/" class="article-date">
+  <time datetime="2020-10-24T15:22:31.715Z" itemprop="datePublished">2020-10-24</time>
 </a>
     
   </div>
   <div class="article-inner">
     
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/bl-hugo/2020/10/24/hh/">hh</a>
-    </h1>
-  
-
-      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
@@ -126,7 +118,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://v2vv.github.io/bl-hugo/2020/10/24/hh/" data-id="ckgnscjgg0001aouo7bu2g5q7" class="article-share-link">Share</a>
+      <a data-url="https://v2vv.github.io/bl-hugo/2020/10/24/dgdg/" data-id="ckgnu1r6e000114uoa1cd16dk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -136,46 +128,282 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/bl-hugo/2020/10/24/hello-world/" class="article-date">
-  <time datetime="2020-10-24T11:38:25.542Z" itemprop="datePublished">2020-10-24</time>
+    <a href="/bl-hugo/2020/10/24/git/" class="article-date">
+  <time datetime="2020-10-24T15:22:31.702Z" itemprop="datePublished">2020-10-24</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/bl-hugo/2020/10/24/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+        <p>Title         : git.md<br>Author        : You<br>Logo          : True</p>
+<h1 id="配置Git的全局设置"><a href="#配置Git的全局设置" class="headerlink" title="配置Git的全局设置"></a>配置Git的全局设置</h1><p>在安装完成之后，使用git config命令对Git进行全局设置：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --<span class="built_in">global</span> user.name <span class="string">&quot;your name&quot;</span> </span><br><span class="line">git config --<span class="built_in">global</span> user.email <span class="string">&quot;your email address&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>因为Git是分布式版本控制系统，所以，每个机器都必须自报家门：你的名字和Email地址。</p>
+<h1 id="克隆远程库"><a href="#克隆远程库" class="headerlink" title="克隆远程库"></a>克隆远程库</h1><p>创建本地库，在本地创建一个文件夹，从远程库克隆一个本地库：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd d:<span class="regexp">/GitTest   /</span><span class="regexp">/指定存放的目录</span></span><br><span class="line"><span class="regexp">git clone https:/</span><span class="regexp">/git.oschina.net/</span>name/test.git   <span class="comment">//你的仓库地址 </span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h1 id="远程仓库相关命令"><a href="#远程仓库相关命令" class="headerlink" title="远程仓库相关命令"></a>远程仓库相关命令</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">检出仓库：        $ git clone git:<span class="comment">//github.com/jquery/jquery.git</span></span><br><span class="line"></span><br><span class="line">查看远程仓库：$ git remote -v</span><br><span class="line"></span><br><span class="line">添加远程仓库：$ git remote add [name] [url]</span><br><span class="line"></span><br><span class="line">删除远程仓库：$ git remote rm [name]</span><br><span class="line"></span><br><span class="line">修改远程仓库：$ git remote set-url --push [name] [newUrl]</span><br><span class="line"></span><br><span class="line">拉取远程仓库：$ git pull [remoteName] [localBranchName]</span><br><span class="line"></span><br><span class="line">推送远程仓库：$ git push [remoteName] [localBranchName]</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+<h1 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">git add：是将当前更改或者新增的文件加入到Git的索引中，加入到Git的索引中就表示记入了版本历史中，这也是提交之前所需要执行的一步，例如<span class="string">&#x27;git add app/model/user.rb&#x27;</span>就会增加app/model/user.rb文件到Git的索引中，该功能类似于SVN的add</span><br><span class="line"></span><br><span class="line">git rm：从当前的工作空间中和索引中删除文件，例如<span class="string">&#x27;git rm app/model/user.rb&#x27;</span>，该功能类似于SVN的rm、del</span><br><span class="line"></span><br><span class="line">git commit：提交当前工作空间的修改内容，类似于SVN的commit命令，例如<span class="string">&#x27;git commit -m story #3, add user model&#x27;</span>，提交的时候必须用-m来输入一条提交信息，该功能类似于SVN的commit</span><br><span class="line"></span><br><span class="line">git remote add origin：关联到远程库</span><br><span class="line"></span><br><span class="line">git pull：从其他的版本库（既可以是远程的也可以是本地的）将代码更新到本地，例如：<span class="string">&#x27;git pull origin master&#x27;</span>就是将origin这个版本库的代码更新到本地的master主枝，该功能类似于SVN的update</span><br><span class="line"></span><br><span class="line">git push：将本地commit的代码更新到远程版本库中，例如<span class="string">&#x27;git push origin&#x27;</span>就会将本地的代码更新到名为orgin的远程版本库中</span><br><span class="line"></span><br><span class="line">git log：查看历史日志，该功能类似于SVN的log</span><br><span class="line"></span><br><span class="line">git revert：还原一个版本的修改，必须提供一个具体的Git版本号，例如<span class="string">&#x27;git revert bbaf6fb5060b4875b18ff9ff637ce118256d6f20&#x27;</span>，Git的版本号都是生成的一个哈希值</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><img src="http://qiniu.v2vv.cn/359884-20171128123923050-1074438610.png" alt="git指令"></p>
+<h1 id="远程推送"><a href="#远程推送" class="headerlink" title="远程推送"></a>远程推送</h1><p><code>git push</code></p>
+<p>用于将本地分支的更新，推送到远程主机。它的格式与git pull命令相仿。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt;</span><br><span class="line">注意：这里的:前后是必须没有空格的。</span><br></pre></td></tr></table></figure>
+
+<p>如果省略远程分支名，则表示将本地分支推送与之存在”追踪关系”的远程分支（通常两者同名），如果该远程分支不存在，则会被新建。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br><span class="line">上面命令表示，将本地的master分支推送到origin主机的master分支。如果后者不存在，则会被新建。</span><br></pre></td></tr></table></figure>
+
+<p>如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">慎用！删除远程仓库的分支</span><br><span class="line">git push origin :master</span><br><span class="line">等同于</span><br><span class="line">git push origin --delete master</span><br></pre></td></tr></table></figure>
+<p>上面命令表示删除origin主机的master分支。</p>
+<p>如果当前分支与远程分支之间存在追踪关系，则本地分支和远程分支都可以省略。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin</span><br></pre></td></tr></table></figure>
+<p>上面命令表示，将当前分支推送到origin主机的对应分支。</p>
+<p>如果当前分支只有一个追踪分支，那么主机名都可以省略。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<p>如果当前分支与多个主机存在追踪关系，则可以使用-u选项指定一个默认主机，这样后面就可以不加任何参数使用git push。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+<p>上面命令将本地的master分支推送到origin主机，同时指定origin为默认主机，后面就可以不加任何参数使用git push了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://v2vv.github.io/bl-hugo/2020/10/24/hello-world/" data-id="ckgnscjg90000aouohj7cdlj1" class="article-share-link">Share</a>
+      <a data-url="https://v2vv.github.io/bl-hugo/2020/10/24/git/" data-id="ckgnu1r6z000e14uo7no69nx7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-v2ray/文件目录" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/bl-hugo/2020/10/24/v2ray/%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/" class="article-date">
+  <time datetime="2020-10-24T15:22:31.688Z" itemprop="datePublished">2020-10-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="相关目录"><a href="#相关目录" class="headerlink" title="相关目录"></a>相关目录</h1><p>伪装的 Web 目录：/home/wwwroot/3DCEList</p>
+<p>V2ray 服务端配置：/etc/v2ray/config.json</p>
+<p>Nginx 目录： /etc/nginx</p>
+<p>证书文件: /data/v2ray.key 和 /data/v2ray.crt</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://v2vv.github.io/bl-hugo/2020/10/24/v2ray/%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/" data-id="ckgnu1r77000q14uoedek0bty" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-v2ray/搭建命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/bl-hugo/2020/10/24/v2ray/%E6%90%AD%E5%BB%BA%E5%91%BD%E4%BB%A4/" class="article-date">
+  <time datetime="2020-10-24T15:22:31.681Z" itemprop="datePublished">2020-10-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="v2ray"><a href="#v2ray" class="headerlink" title="v2ray"></a>v2ray</h1><h2 id="233-版搭建"><a href="#233-版搭建" class="headerlink" title="233 版搭建"></a>233 版搭建</h2><h3 id="系统要求"><a href="#系统要求" class="headerlink" title="系统要求"></a>系统要求</h3><p>CentOS 7+、Debian 8+bunts 16+，作者更推荐Debian 9.</p>
+<h3 id="安装curl"><a href="#安装curl" class="headerlink" title="安装curl"></a>安装curl</h3><p>CentOS 命令： yum update -y &amp;&amp; yum install curl -y</p>
+<p>Debian/Ubuntu 命令：apt-get update -y &amp;&amp; apt-get install curl -y</p>
+<h3 id="安装脚本"><a href="#安装脚本" class="headerlink" title="安装脚本"></a>安装脚本</h3><p>bash &lt;(curl -s -L <a target="_blank" rel="noopener" href="https://git.io/v2ray.sh">https://git.io/v2ray.sh</a>)</p>
+<p>下面会让你选择V2ray的传输协议，可选协议众多，如果没什么特殊需求的话，默认TCP即可。如果你需要启用类似KCPTUN的网络加速功能，则选择mKCP开头的几个，在mKCP协议下，流量以UDP的形式传输。</p>
+<h2 id="V2ray-Ws-Tls"><a href="#V2ray-Ws-Tls" class="headerlink" title="V2ray+Ws+Tls"></a>V2ray+Ws+Tls</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>解析好你的域名（指向 VPS IP），推荐使用二级域名（XXX.XXX.COM）</p>
+<h3 id="一键安装代码"><a href="#一键安装代码" class="headerlink" title="一键安装代码:"></a>一键安装代码:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash &lt;(curl -L -s https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;wulabing&#x2F;V2Ray_ws-tls_bash_onekey&#x2F;master&#x2F;install.sh) | tee v2ray_ins.log</span><br></pre></td></tr></table></figure>
+
+<h4 id="BBR-加速代码"><a href="#BBR-加速代码" class="headerlink" title="BBR 加速代码:"></a>BBR 加速代码:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https:&#x2F;&#x2F;github.com&#x2F;teddysun&#x2F;across&#x2F;raw&#x2F;master&#x2F;bbr.sh &amp;&amp; chmod +x bbr.sh &amp;&amp; .&#x2F;bbr.sh</span><br></pre></td></tr></table></figure>
+
+<p>如果安装不了 BBR 请先运行以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget</span><br></pre></td></tr></table></figure>
+
+<h2 id="V2ray-Ws-TLs-Nginx、V2ray-H2-TLs-Nginx"><a href="#V2ray-Ws-TLs-Nginx、V2ray-H2-TLs-Nginx" class="headerlink" title="V2ray+Ws+TLs+Nginx、V2ray+H2+TLs+Nginx"></a>V2ray+Ws+TLs+Nginx、V2ray+H2+TLs+Nginx</h2><p><a target="_blank" rel="noopener" href="https://github.com/wulabing/V2Ray_ws-tls_bash_onekey">github 开源</a></p>
+<h3 id="安装好-curl、wget"><a href="#安装好-curl、wget" class="headerlink" title="安装好 curl、wget"></a>安装好 curl、wget</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget    ##Yum 安装 wget</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get update -y &amp;&amp; apt-get install curl -y    ##Ubuntu&#x2F;Debian 系统安装 Curl 方法</span><br><span class="line">yum update -y &amp;&amp; yum install curl -y            ##Centos 系统安装 Curl 方法</span><br></pre></td></tr></table></figure>
+<h3 id="安装-更新方式（h2-和-ws-版本已合并）"><a href="#安装-更新方式（h2-和-ws-版本已合并）" class="headerlink" title="安装/更新方式（h2 和 ws 版本已合并）"></a>安装/更新方式（h2 和 ws 版本已合并）</h3><p>Vmess+websocket+TLS+Nginx+Website</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -N --no-check-certificate -q -O install.sh &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;wulabing&#x2F;V2Ray_ws-tls_bash_onekey&#x2F;master&#x2F;install.sh&quot; &amp;&amp; chmod +x install.sh &amp;&amp; bash install.sh</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://v2vv.github.io/bl-hugo/2020/10/24/v2ray/%E6%90%AD%E5%BB%BA%E5%91%BD%E4%BB%A4/" data-id="ckgnu1r77000p14uochyl6jax" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-v2ray/搜索" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/bl-hugo/2020/10/24/v2ray/%E6%90%9C%E7%B4%A2/" class="article-date">
+  <time datetime="2020-10-24T15:22:31.673Z" itemprop="datePublished">2020-10-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="https://www.v2rayssr.com/v2raywsh2.html">v2rayssr.com</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://v2vv.github.io/bl-hugo/2020/10/24/v2ray/%E6%90%9C%E7%B4%A2/" data-id="ckgnu1r76000o14uoafdxd73v" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-v2ray/客户端配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/bl-hugo/2020/10/24/v2ray/%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time datetime="2020-10-24T15:22:31.665Z" itemprop="datePublished">2020-10-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="查看客户端配置"><a href="#查看客户端配置" class="headerlink" title="查看客户端配置"></a>查看客户端配置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~&#x2F;v2ray_info.txt</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://v2vv.github.io/bl-hugo/2020/10/24/v2ray/%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE/" data-id="ckgnu1r75000n14uoescgg2a3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-v2ray/启动命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/bl-hugo/2020/10/24/v2ray/%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4/" class="article-date">
+  <time datetime="2020-10-24T15:22:31.657Z" itemprop="datePublished">2020-10-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>启动命令 v2ray</p>
+<p>启动方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl start v2ray #启动 V2ray </span><br><span class="line">systemctl stop v2ray #停止 V2ray </span><br><span class="line">systemctl start nginx #启动 Nginx </span><br><span class="line">systemctl stop nginx #停止 Nginx </span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://v2vv.github.io/bl-hugo/2020/10/24/v2ray/%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4/" data-id="ckgnu1r75000m14uo27uegka3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Git 设置代理加速" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/bl-hugo/2020/10/24/Git%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E5%8A%A0%E9%80%9F/" class="article-date">
+  <time datetime="2020-10-24T15:22:31.637Z" itemprop="datePublished">2020-10-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>设置代理</li>
+</ul>
+<blockquote>
+<p>git config –global http.proxy ‘socks5://127.0.0.1:1080’<br>git config –global https.proxy ‘socks5://127.0.0.1:1080’</p>
+<p>端口号1080为VPN设置的代理端口，可自行修改为自己的VPN代理端口，楼主使用第一种无加速效果，第二种代理方式速度得到明显提升，峰值可达1M/s。</p>
+</blockquote>
+<ul>
+<li>取消代理</li>
+</ul>
+<blockquote>
+<p>git config –global –unset http.proxy<br>git config –global –unset https.proxy</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://v2vv.github.io/bl-hugo/2020/10/24/Git%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86%E5%8A%A0%E9%80%9F/" data-id="ckgnu1r6q000514uogscodgx1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Linux 常用操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/bl-hugo/2020/10/24/Linux%20%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time datetime="2020-10-24T15:22:31.621Z" itemprop="datePublished">2020-10-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Linux常用操作"><a href="#Linux常用操作" class="headerlink" title="Linux常用操作"></a>Linux常用操作</h2><h3 id="切换为-root-用户"><a href="#切换为-root-用户" class="headerlink" title="切换为 root 用户"></a>切换为 root 用户</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo passwd root</span><br><span class="line">su</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir name1 name2 name3</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://v2vv.github.io/bl-hugo/2020/10/24/Linux%20%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" data-id="ckgnu1r6s000714uoah09fbti" class="article-share-link">Share</a>
       
       
     </footer>
@@ -186,6 +414,11 @@
 
   
 
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/bl-hugo/page/2/">2</a><a class="page-number" href="/bl-hugo/page/3/">3</a><a class="extend next" rel="next" href="/bl-hugo/page/2/">Next &amp;raquo;</a>
+  </nav>
 
 </section>
         
@@ -216,15 +449,23 @@
       <ul>
         
           <li>
-            <a href="/bl-hugo/2020/10/24/ll/">ll</a>
+            <a href="/bl-hugo/2020/10/24/PWM%E8%B0%83%E5%88%B6/">(no title)</a>
           </li>
         
           <li>
-            <a href="/bl-hugo/2020/10/24/hh/">hh</a>
+            <a href="/bl-hugo/2020/10/24/dgdg/">(no title)</a>
           </li>
         
           <li>
-            <a href="/bl-hugo/2020/10/24/hello-world/">Hello World</a>
+            <a href="/bl-hugo/2020/10/24/git/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/bl-hugo/2020/10/24/v2ray/%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/bl-hugo/2020/10/24/v2ray/%E6%90%AD%E5%BB%BA%E5%91%BD%E4%BB%A4/">(no title)</a>
           </li>
         
       </ul>
